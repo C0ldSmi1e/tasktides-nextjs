@@ -4,7 +4,7 @@ import { Tag } from "@/app/checklists/types/tag";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
-  const data: StandardResponse<any> = await res.json();
+  const data: StandardResponse<Tag[]> = await res.json();
   if (!data.success) {
     throw new Error(data.error || "An error occurred");
   }

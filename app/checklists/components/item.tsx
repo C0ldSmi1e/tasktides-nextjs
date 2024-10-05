@@ -206,7 +206,13 @@ const Item = ({
               onKeyDown={onKeyDownName}
             />
           ) : (
-            <span className="cursor-pointer" onClick={onClickName}>{name}</span>
+            <span className="cursor-pointer flex flex-row gap-2 items-center" onClick={onClickName}>
+              {item.isDone ?
+                <span className="text-green-500">✅</span> :
+                ""
+              }
+              {name}
+            </span>
           )}
           {isEditingDueDate ? (
             <input
@@ -230,7 +236,7 @@ const Item = ({
         <div>
           {isEditingDescription ? (
             <input
-              className="outline-none border-none"
+              className="w-full outline-none border-none"
               type="text"
               value={description ?? ""}
               onChange={onChangeDescription}
@@ -266,7 +272,7 @@ const Item = ({
               {selectedTags.length > 0 ? 
                 <div className="flex gap-4 flex-wrap cursor-pointer" onClick={onClickTags}>
                   {selectedTags.map((tag) => (
-                    <span key={tag.value} className="border-2 border-black rounded-md px-2 py-1">
+                    <span key={tag.value} className="border-2 border-black rounded-md px-2 py-1 text-left text-sm">
                       {tag.label}
                     </span>
                   ))}

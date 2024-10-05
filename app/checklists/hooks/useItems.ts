@@ -6,7 +6,7 @@ import useTags from "./useTags";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
-  const data: StandardResponse<any> = await res.json();
+  const data: StandardResponse<Item[]> = await res.json();
   if (!data.success) {
     throw new Error(data.error || "An error occurred");
   }

@@ -7,7 +7,7 @@ import useItems from "../hooks/useItems";
 import { Tag } from "../types/tag";
 import Loading from "@/app/loading";
 import Error from "@/app/error";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { Star } from "@/components/SVG";
 
 const Form = () => {
@@ -32,7 +32,7 @@ const Form = () => {
     return <Error />;
   }
 
-  const options = tags.map((tag: Tag) => ({
+  const options = tags?.map((tag: Tag) => ({
     value: tag.id,
     label: tag.name,
     __isNew__: false,
@@ -48,7 +48,12 @@ const Form = () => {
 
   const onChangeDueDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const dateValue = e.target.value;
-    setDueDate(new Date(dateValue));
+    if (dateValue) {
+      const date = parse(dateValue, "yyyy-MM-dd", new Date());
+      setDueDate(date);
+    } else {
+      setDueDate(null);
+    }
   };
 
   const onChangeIsImportant = () => {
@@ -85,8 +90,8 @@ const Form = () => {
     setName("");
     setDescription("");
     setDueDate(null);
-    setIsImportant(false);
     setSelectedTags([]);
+    setIsImportant(false);
     setIsSubmitting(false);
   };
 
