@@ -49,11 +49,12 @@ const Item = ({
   }
 
 
-  const options = tags.map((tag: Tag) => ({
+  const options = tags ? tags.map((tag: Tag) => ({
     value: tag.id,
     label: tag.name,
     __isNew__: false,
-  }));
+  }))
+    : [];
 
   const toggleDone = () => {
     if (item.isDone) {

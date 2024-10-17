@@ -4,12 +4,14 @@ import { successResponse, errorResponse } from "@/types/StandardResponse";
 import { Tag } from "@/app/checklists/types/tag";
 
 const GET = async () => {
+  console.log("GET items");
   try {
     const items = await prisma.item.findMany({
       include: {
         tags: true,
       },
     });
+    console.log("items", items);
     return NextResponse.json(
       successResponse({
         data: items,
@@ -17,7 +19,14 @@ const GET = async () => {
       })
     );
   } catch (error) {
-    return NextResponse.json(errorResponse({ error: "Failed to fetch items", message: "Failed to fetch items" }), { status: 500 });
+    console.error("error", error);
+    return NextResponse.json(
+      errorResponse({
+        error: "Failed to fetch items",
+        message: "Failed to fetch items",
+      }),
+      { status: 500 }
+    );
   }
 };
 

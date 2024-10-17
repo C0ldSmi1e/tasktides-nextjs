@@ -9,6 +9,7 @@ const GET = async () => {
         items: true,
       },
     });
+    console.log(tags);
     return NextResponse.json(
       successResponse({
         data: tags,

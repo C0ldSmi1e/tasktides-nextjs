@@ -1,17 +1,35 @@
 services:
+  tasktides-web:
+    container_name: container-tasktides-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
   postgres:
     container_name: container-pg
     image: postgres
-    hostname: localhost
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: checklists
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
+
+  tunnel:
+    container_name: tasktides-web-tunnel
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
 
 volumes:
   postgres-data:

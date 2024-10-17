@@ -7,6 +7,8 @@ const SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET);
 const middleware = async (req: NextRequest) => {
   const token = req.cookies.get("auth_token")?.value;
 
+  console.log("token", token);
+
   if (
     req.nextUrl.pathname === "/login" ||
     req.nextUrl.pathname === "/api/auth" ||
@@ -32,7 +34,6 @@ const middleware = async (req: NextRequest) => {
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
-
 };
 
 export default middleware;

@@ -32,7 +32,12 @@ const PUT = async (req: Request, { params }: { params: { id: string } }) => {
       where: {
         id: params.id,
       },
-      data: tag,
+      data: {
+        ...tag,
+        items: {
+          connect: tag.items.map(item => ({ id: item.id }))
+        }
+      },
     });
     return NextResponse.json(
       successResponse({
