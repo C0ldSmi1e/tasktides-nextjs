@@ -18,7 +18,7 @@ const Login = () => {
 
   return (
     <form
-      className="w-64 flex flex-col gap-4"
+      className="w-64 flex gap-2"
       onSubmit={onSubmit}
     >
       <input
@@ -28,6 +28,7 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Enter password"
       />
+      <button className="p-2 rounded border-2 border-black">Login</button>
     </form>
   );
 };
