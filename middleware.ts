@@ -9,8 +9,15 @@ const middleware = async (req: NextRequest) => {
 
   console.log("token", token);
 
+  if (req.nextUrl.pathname === "/login") {
+    if (token) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+
+    return NextResponse.next();
+  }
+
   if (
-    req.nextUrl.pathname === "/login" ||
     req.nextUrl.pathname === "/api/auth" ||
     req.nextUrl.pathname === "/api/logout" ||
     req.nextUrl.pathname === "/api/check-auth"
