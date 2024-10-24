@@ -7,9 +7,23 @@ services:
     ports:
       - "8090:8090"
     restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     depends_on:
-      - postgres
-
+      postgres:
+        condition: service_healthy
+    # Use local prisma instead of global installation
+    command: >
+      sh -c "
+        echo 'Waiting for postgres...' &&
+        while ! nc -z postgres 5432; do
+          sleep 1
+        done &&
+        echo 'PostgreSQL started' &&
+        npx prisma generate &&
+        npx prisma db push &&
+        HOSTNAME='0.0.0.0' node server.js
+      "
   postgres:
     container_name: container-pg
     image: postgres
@@ -21,15 +35,19 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
-
-  tunnel:
-    container_name: tasktides-web-tunnel
-    image: cloudflare/cloudflared:latest
-    restart: unless-stopped
-    command: tunnel --no-autoupdate run
-    environment:
-      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+  # tunnel:
+  #   container_name: tasktides-web-tunnel
+  #   image: cloudflare/cloudflared:latest
+  #   restart: unless-stopped
+  #   command: tunnel --no-autoupdate run
+  #   environment:
+  #     - TUNNEL_TOKEN=${TUNNEL_TOKEN}
 
 volumes:
   postgres-data:
