@@ -8,7 +8,7 @@ import { Star } from "@/components/SVG";
 import CreatableSelect from "react-select/creatable";
 import useTags from "@/app/checklists/hooks/useTags";
 import { Tag } from "@/app/checklists/types/tag";
-import { TagOption } from "@/types/TagOption";
+import { TagOption } from "@/app/checklists/types/tag";
 
 
 const Item = ({

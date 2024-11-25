@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import useTags from "../hooks/useTags";
 import useItems from "../hooks/useItems";
-import { Tag } from "../types/tag";
+import { Tag, TagOption } from "../types/tag";
 import Loading from "@/app/loading";
 import Error from "@/app/error";
 import { format, parse } from "date-fns";
 import { Star } from "@/components/SVG";
-import { TagOption } from "@/types/TagOption";
 
 const Form = () => {
   const { tags, isLoading, isError } = useTags();

@@ -5,3 +5,9 @@ export type Tag = {
   name: string;
   items: Item[];
 };
+
+export type TagOption = {
+  value: string;
+  label: string;
+  __isNew__: boolean | undefined;
+};
