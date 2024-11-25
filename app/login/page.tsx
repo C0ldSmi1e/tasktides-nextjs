@@ -1,19 +1,17 @@
 "use client";
+
 import { useState } from "react";
 import { useAuthContext } from "@/contexts/auth";
-import { useRouter } from "next/navigation";
 
 const Login = () => {
   const [password, setPassword] = useState("");
   const { login } = useAuthContext();
-  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       await login({ password });
-      router.push("/");
     } catch (error) {
       console.error("Error logging in:", error);
     }
