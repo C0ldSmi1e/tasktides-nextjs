@@ -8,6 +8,8 @@ import { Star } from "@/components/SVG";
 import CreatableSelect from "react-select/creatable";
 import useTags from "@/app/checklists/hooks/useTags";
 import { Tag } from "@/app/checklists/types/tag";
+import { TagOption } from "@/types/TagOption";
+
 
 const Item = ({
   item,
@@ -30,11 +32,7 @@ const Item = ({
   const [dueDate, setDueDate] = useState<string>(item.dueDate ? new Date(item.dueDate).toISOString().split("T")[0] : "");
 
   const [isEditingTags, setIsEditingTags] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<{
-    value: string;
-    label: string;
-    __isNew__: boolean | undefined;
-  }[]>(item.tags.map((tag: Tag) => ({
+  const [selectedTags, setSelectedTags] = useState<TagOption[]>(item.tags.map((tag: Tag) => ({
     value: tag.id,
     label: tag.name,
     __isNew__: false,
@@ -262,7 +260,7 @@ const Item = ({
                 isMulti
                 isSearchable
                 options={options}
-                onChange={(newValue) => onChangeSelectedTags(newValue as any)}
+                onChange={(newValue) => onChangeSelectedTags(newValue as TagOption[])}
                 value={selectedTags}
               />
               <button onClick={onCancelTags}>Cancel</button>

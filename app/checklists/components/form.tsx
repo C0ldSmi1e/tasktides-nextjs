@@ -9,6 +9,7 @@ import Loading from "@/app/loading";
 import Error from "@/app/error";
 import { format, parse } from "date-fns";
 import { Star } from "@/components/SVG";
+import { TagOption } from "@/types/TagOption";
 
 const Form = () => {
   const { tags, isLoading, isError } = useTags();
@@ -17,11 +18,7 @@ const Form = () => {
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [isImportant, setIsImportant] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<{
-    value: string;
-    label: string;
-    __isNew__: boolean | undefined;
-  }[]>([]);
+  const [selectedTags, setSelectedTags] = useState<TagOption[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (isLoading) {
@@ -124,7 +121,7 @@ const Form = () => {
         isMulti
         isSearchable
         options={options}
-        onChange={(newValue) => onChangeSelectedTags(newValue as any)}
+        onChange={(newValue) => onChangeSelectedTags(newValue as TagOption[])}
         value={selectedTags}
       />
       <button
