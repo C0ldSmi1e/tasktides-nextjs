@@ -11,9 +11,14 @@ const middleware = async (req: NextRequest) => {
 
   if (req.nextUrl.pathname === "/login") {
     if (token) {
-      return NextResponse.redirect(new URL("/", req.url));
+      try {
+        await jose.jwtVerify(token, SECRET_KEY);
+        return NextResponse.redirect(new URL("/", req.url));
+      } catch (error) {
+        console.log("error", error);
+        return NextResponse.next();
+      }
     }
-
     return NextResponse.next();
   }
 
@@ -31,11 +36,12 @@ const middleware = async (req: NextRequest) => {
 
   try {
     await jose.jwtVerify(token, SECRET_KEY);
-
     return NextResponse.next();
   } catch (error) {
     console.log("error", error);
-    return NextResponse.redirect(new URL("/login", req.url));
+    const response = NextResponse.redirect(new URL("/login", req.url));
+    response.cookies.delete("auth_token");
+    return response;
   }
 };
 
