@@ -14,7 +14,11 @@ const fetcher = async (url: string) => {
 };
 
 const useItems = () => {
-  const { data: items, isLoading, error } = useSWR("api/checklists/items", fetcher);
+  const {
+    data: items,
+    isLoading,
+    error,
+  } = useSWR("api/checklists/items", fetcher);
   const { cleanupTags } = useTags();
   const addItem = async ({
     name,

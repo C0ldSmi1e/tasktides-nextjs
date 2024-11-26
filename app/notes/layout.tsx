@@ -1,4 +1,4 @@
-const ChecklistsLayout = ({
+const NotesLayout = ({
   children,
 }: {
   children: React.ReactNode;
@@ -6,4 +6,4 @@ const ChecklistsLayout = ({
   return <div className="flex-grow flex flex-col py-4">{children}</div>;
 };
 
-export default ChecklistsLayout;
+export default NotesLayout;
