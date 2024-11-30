@@ -195,24 +195,29 @@ const Item = ({
     <div className="w-full border-2 border-black rounded-md p-4">
       <div className="flex flex-col gap-4">
         <div className="flex flex-row justify-between">
-          {isEditingName ? (
-            <input
-              className="outline-none border-none"
-              type="text"
-              value={name}
-              onChange={onChangeName}
-              onBlur={onBlurName}
-              onKeyDown={onKeyDownName}
-            />
-          ) : (
-            <span className="cursor-pointer flex flex-row gap-2 items-center" onClick={onClickName}>
-              {item.isDone ?
-                <span className="text-green-500">✅</span> :
-                ""
-              }
-              {name}
-            </span>
-          )}
+          <div className="flex flex-row gap-2 items-center">
+            <button onClick={toggleImportant}>
+              <Star important={item.isImportant} />
+            </button>
+            {isEditingName ? (
+              <input
+                className="outline-none border-none"
+                type="text"
+                value={name}
+                onChange={onChangeName}
+                onBlur={onBlurName}
+                onKeyDown={onKeyDownName}
+              />
+            ) : (
+              <span className="cursor-pointer flex flex-row gap-2 items-center" onClick={onClickName}>
+                {item.isDone ?
+                  <span className="text-green-500">✅</span> :
+                  ""
+                }
+                {name}
+              </span>
+            )}
+          </div>
           {isEditingDueDate ? (
             <input
               className="outline-none border-none"
@@ -281,9 +286,6 @@ const Item = ({
             </>
           )}
           <div className="flex gap-4">
-            <button onClick={toggleImportant}>
-              <Star important={item.isImportant} />
-            </button>
             {item?.isDone ?
               <button onClick={toggleDone}>Undo</button> :
               <button onClick={toggleDone}>Done</button>
