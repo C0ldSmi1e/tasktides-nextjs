@@ -1,4 +1,4 @@
-import useSWR, { mutate } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { StandardResponse } from "@/types/StandardResponse";
 import { Tag } from "@/app/checklists/types/tag";
 
@@ -13,6 +13,7 @@ const fetcher = async (url: string) => {
 
 const useTags = () => {
   const { data: tags, isLoading, error } = useSWR("api/checklists/tags", fetcher);
+  const { mutate } = useSWRConfig();
 
   const getTag = async (id: string) => {
     try {
@@ -34,7 +35,7 @@ const useTags = () => {
       if (!data.success) {
         throw new Error(data.error || "An error occurred");
       }
-      await mutate("api/checklists/tags");
+      mutate("api/checklists/tags");
       return data.data;
     } catch (error) {
       console.error(error);
@@ -51,7 +52,7 @@ const useTags = () => {
       if (!data.success) {
         throw new Error(data.error || "An error occurred");
       }
-      await mutate("api/checklists/tags");
+      mutate("api/checklists/tags");
       return data.data;
     } catch (error) {
       console.error(error);
@@ -67,7 +68,7 @@ const useTags = () => {
       if (!data.success) {
         throw new Error(data.error || "An error occurred");
       }
-      await mutate("api/checklists/tags");
+      mutate("api/checklists/tags");
       return data.data;
     } catch (error) {
       console.error(error);
@@ -80,11 +81,15 @@ const useTags = () => {
         method: "POST",
       });
       const data: StandardResponse<Tag[]> = await res.json();
-      await mutate("api/checklists/tags");
+      mutate("api/checklists/tags");
       return data?.data;
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const revalidateTags = () => {
+    mutate("api/checklists/tags");
   };
 
   return {
@@ -96,7 +101,7 @@ const useTags = () => {
     updateTag,
     deleteTag,
     cleanupTags,
-    mutate,
+    revalidateTags,
   };
 };
 

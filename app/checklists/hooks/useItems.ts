@@ -1,4 +1,4 @@
-import useSWR, { mutate } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { StandardResponse } from "@/types/StandardResponse";
 import { Item } from "@/app/checklists/types/item";
 import { Tag } from "@/app/checklists/types/tag";
@@ -19,8 +19,9 @@ const useItems = () => {
     isLoading,
     error,
   } = useSWR("api/checklists/items", fetcher);
+  const { mutate } = useSWRConfig();
 
-  const { cleanupTags } = useTags();
+  const { cleanupTags, revalidateTags } = useTags();
 
   const addItem = async ({
     name,
@@ -44,7 +45,8 @@ const useItems = () => {
       if (!data.success) {
         throw new Error(data.error || "An error occurred");
       }
-      await mutate("api/checklists/items");
+      mutate("api/checklists/items");
+      revalidateTags();
       return data.data;
     } catch (error) {
       console.error(error);
@@ -63,7 +65,7 @@ const useItems = () => {
 
       await cleanupTags();
 
-      await mutate("api/checklists/items");
+      mutate("api/checklists/items");
       return data.data;
     } catch (error) {
       console.error(error);
@@ -81,7 +83,7 @@ const useItems = () => {
         throw new Error(data.error || "An error occurred");
       }
       await cleanupTags();
-      await mutate("api/checklists/items");
+      mutate("api/checklists/items");
       return data.data;
     } catch (error) {
       console.error(error);

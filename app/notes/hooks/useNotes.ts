@@ -1,4 +1,4 @@
-import useSWR, { mutate } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { StandardResponse } from "@/types/StandardResponse";
 import { Note } from "@/app/notes/types/note";
 
@@ -11,17 +11,14 @@ const fetcher = async (url: string) => {
   return data.data;
 };
 
-const mockNotes: Note[] = [
-  { id: "1", title: "Note 1", content: "Content 1", isImportant: true },
-  { id: "2", title: "Note 2", content: "Content 2", isImportant: false },
-];
-
 const useNotes = () => {
   const {
     data: notes,
     isLoading,
     error,
   } = useSWR("api/notes", fetcher);
+
+  const { mutate } = useSWRConfig();
 
   const addNote = async ({
     title,
@@ -42,7 +39,7 @@ const useNotes = () => {
       if (!data.success) {
         throw new Error(data.error || "An error occurred");
       }
-      await mutate("api/notes");
+      mutate("api/notes");
       return data.data;
     } catch (error) {
       console.error(error);
@@ -59,7 +56,7 @@ const useNotes = () => {
       if (!data.success) {
         throw new Error(data.error || "An error occurred");
       }
-      await mutate("api/notes");
+      mutate("api/notes");
       return data.data;
     } catch (error) {
       console.error(error);
@@ -75,7 +72,7 @@ const useNotes = () => {
       if (!data.success) {
         throw new Error(data.error || "An error occurred");
       }
-      await mutate("api/notes");
+      mutate("api/notes");
     } catch (error) {
       console.error(error);
     }
