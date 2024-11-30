@@ -281,15 +281,9 @@ const Item = ({
             </>
           )}
           <div className="flex gap-4">
-            {item?.isImportant ?
-              (<button onClick={toggleImportant}>
-                <Star important={item.isImportant} />
-              </button>
-              ) : (
-                <button onClick={toggleImportant}>
-                  <Star important={item.isImportant} />
-                </button>
-              )}
+            <button onClick={toggleImportant}>
+              <Star important={item.isImportant} />
+            </button>
             {item?.isDone ?
               <button onClick={toggleDone}>Undo</button> :
               <button onClick={toggleDone}>Done</button>
