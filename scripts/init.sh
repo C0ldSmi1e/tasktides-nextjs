@@ -19,9 +19,9 @@ echo 'PostgreSQL started'
 echo 'Generating Prisma Client...'
 npx prisma generate
 
-# Apply migrations from your migration history
-echo 'Applying database migrations...'
-npx prisma migrate deploy
+# Push database schema to the database
+echo 'Pushing database schema...'
+npx prisma db push
 
 # Start the Next.js server
 echo 'Starting Next.js server...'
