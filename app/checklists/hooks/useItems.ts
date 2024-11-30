@@ -19,7 +19,9 @@ const useItems = () => {
     isLoading,
     error,
   } = useSWR("api/checklists/items", fetcher);
+
   const { cleanupTags } = useTags();
+
   const addItem = async ({
     name,
     description,

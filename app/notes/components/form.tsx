@@ -11,6 +11,8 @@ const Form = () => {
   const [content, setContent] = useState("");
   const [isImportant, setIsImportant] = useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { addNote } = useNotes();
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,8 +30,20 @@ const Form = () => {
     setIsImportant(!isImportant);
   };
 
-  const onAddNote = () => {
-    addNote({ title, content, isImportant });
+  const onAddNote = async () => {
+    if (title === "" || content === "") {
+      alert("Title and content are required");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    await addNote({ title, content, isImportant });
+
+    setTitle("");
+    setContent("");
+    setIsImportant(false);
+    setIsSubmitting(false);
   };
 
   return (
@@ -63,8 +77,9 @@ const Form = () => {
         <button
           className="w-24 p-2 rounded-md border-2 border-black"
           onClick={onAddNote}
+          disabled={isSubmitting}
         >
-        Add Note
+          {isSubmitting ? "Adding..." : "Add Note"}
         </button>
       </div>
     </div>

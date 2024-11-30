@@ -12,7 +12,7 @@ const notes = [
 ];
 
 const NotesPage = () => {
-  const { notes, isLoading, isError, deleteNote } = useNotes();
+  const { notes, isLoading, isError, deleteNote, updateNote } = useNotes();
 
   if (isLoading) {
     return <Loading />;
@@ -26,7 +26,12 @@ const NotesPage = () => {
     <div className="flex flex-col gap-4">
       <Form />
       {notes?.map((note) => (
-        <NoteCard key={note.id} note={note} onDelete={deleteNote} />
+        <NoteCard
+          key={note.id}
+          note={note}
+          onDelete={deleteNote}
+          onUpdate={updateNote}
+        />
       ))}
     </div>
   );

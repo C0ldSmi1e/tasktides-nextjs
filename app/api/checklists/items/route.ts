@@ -70,7 +70,10 @@ const POST = async (req: Request) => {
       })
     );
   } catch (error) {
-    return NextResponse.json(errorResponse({ error: "Failed to create item", message: "Failed to create item" }), { status: 500 });
+    return NextResponse.json(
+      errorResponse({ error: error as string }),
+      { status: 500 }
+    );
   }
 };
 

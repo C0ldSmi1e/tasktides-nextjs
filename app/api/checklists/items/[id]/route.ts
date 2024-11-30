@@ -22,7 +22,7 @@ const GET = async (req: Request, { params }: { params: { id: string } }) => {
   } catch (error) {
     return NextResponse.json(
       errorResponse({
-        error: "Failed to fetch item",
+        error: error as string,
         message: "Failed to fetch item",
       }),
       { status: 500 }
@@ -64,11 +64,12 @@ const PUT = async (req: Request, { params }: { params: { id: string } }) => {
       })
     );
   } catch (error) {
-    return NextResponse.json(errorResponse({
-      error: "Failed to update item",
-      message: "Failed to update item",
-    }),
-    { status: 500 }
+    return NextResponse.json(
+      errorResponse({
+        error: error as string,
+        message: "Failed to update item",
+      }),
+      { status: 500 }
     );
   }
 };
@@ -92,7 +93,7 @@ const DELETE = async (req: Request, { params }: { params: { id: string } }) => {
   } catch (error) {
     return NextResponse.json(
       errorResponse({
-        error: "Failed to delete item",
+        error: error as string,
         message: "Failed to delete item",
       }),
       { status: 500 }
