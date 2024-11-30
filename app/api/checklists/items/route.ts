@@ -32,7 +32,19 @@ const GET = async () => {
 
 const POST = async (req: Request) => {
   try {
-    const { name, description, dueDate, isImportant, tags }: { name: string; description: string; dueDate: Date; isImportant: boolean; tags: Tag[] } = await req.json();
+    const {
+      name,
+      description,
+      dueDate,
+      isImportant,
+      tags,
+    }: {
+      name: string;
+      description: string;
+      dueDate: Date;
+      isImportant: boolean;
+      tags: Tag[];
+    } = await req.json();
     console.log("tags", tags);
     const newItem = await prisma.item.create({
       data: {
