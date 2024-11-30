@@ -5,7 +5,7 @@ import { successResponse, errorResponse } from "@/types/StandardResponse";
 
 const GET = async () => {
   try {
-    const notes = await prisma.note.findMany();
+    const notes: Note[] = [];
     return NextResponse.json(
       successResponse({
         data: notes,
