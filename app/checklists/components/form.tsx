@@ -124,11 +124,11 @@ const Form = () => {
         value={selectedTags}
       />
       <button
-        className="w-16 p-2 rounded-md border-2 border-black"
+        className="w-24 p-2 rounded-md border-2 border-black"
         onClick={onSubmit}
         disabled={isSubmitting}
       >
-        {isSubmitting ? "Adding..." : "Add"}
+        {isSubmitting ? "Adding..." : "Add Item"}
       </button>
     </div>
   </div>
