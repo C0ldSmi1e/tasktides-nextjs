@@ -24,3 +24,10 @@ model Tag {
   name  String @unique
   items Item[] @relation("ItemToTag")
 }
+
+model Note {
+  id          String  @id @default(cuid())
+  title       String?
+  content     String
+  isImportant Boolean @default(false)
+}

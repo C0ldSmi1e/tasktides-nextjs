@@ -38,34 +38,40 @@ RUN \
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
-
 ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+# Create the initialization script directory and add the script
+RUN mkdir -p scripts
+COPY scripts/init.sh /app/scripts/
+RUN chmod +x /app/scripts/init.sh
+
+# Create system user/group - keeping your existing setup
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Copy files from builder stage - keeping your existing copying
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/package.json ./package.json
 
-# Set the correct permission for prerender cache and node_modules
+# Set up Next.js directories and permissions
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 RUN chown -R nextjs:nodejs /app/node_modules
+# Make sure the init script is owned by nextjs user
+RUN chown nextjs:nodejs /app/scripts/init.sh
 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
+# Copy Next.js build output
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Switch to non-root user
 USER nextjs
-
 EXPOSE 8090
 ENV PORT=8090
 
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD ["node", "server.js"]
+# Change the CMD to use the initialization script
+CMD ["/app/scripts/init.sh"]

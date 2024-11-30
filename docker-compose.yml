@@ -12,18 +12,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    # Use local prisma instead of global installation
-    command: >
-      sh -c "
-        echo 'Waiting for postgres...' &&
-        while ! nc -z postgres 5432; do
-          sleep 1
-        done &&
-        echo 'PostgreSQL started' &&
-        npx prisma generate &&
-        npx prisma db push &&
-        HOSTNAME='0.0.0.0' node server.js
-      "
+
   postgres:
     container_name: container-pg
     image: postgres
