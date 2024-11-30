@@ -17,7 +17,7 @@ const NavBar = () => {
   return (
     <div className="flex justify-between items-center p-4 border-2 rounded-md border-black">
       <Link href="/">
-        <h1 className="text-2xl font-bold">Tasktides</h1>
+        <h1 className="text-lg md:text-2xl font-bold">Tasktides</h1>
       </Link>
       {isAuthenticated && (
         <div className="flex gap-4">

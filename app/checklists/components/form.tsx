@@ -124,7 +124,7 @@ const Form = () => {
         value={selectedTags}
       />
       <button
-        className="w-28 p-2 rounded-md border-2 border-black"
+        className="w-32 p-2 rounded-md border-2 border-black"
         onClick={onSubmit}
         disabled={isSubmitting}
       >
