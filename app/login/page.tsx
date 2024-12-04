@@ -7,30 +7,33 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const { login } = useAuthContext();
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onLogin = () => {
+    login({ password });
+  };
 
-    try {
-      await login({ password });
-    } catch (error) {
-      console.error("Error logging in:", error);
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onLogin();
     }
   };
 
   return (
-    <form
-      className="w-64 flex gap-2"
-      onSubmit={onSubmit}
-    >
+    <div className="w-64 flex gap-2">
       <input
         className="p-2 outline-none border-2 border-black rounded"
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Enter password"
+        onKeyDown={onKeyDown}
       />
-      <button className="p-2 rounded border-2 border-black">Login</button>
-    </form>
+      <button
+        className="p-2 rounded border-2 border-black"
+        onClick={onLogin}
+      >
+        Login
+      </button>
+    </div>
   );
 };
 
